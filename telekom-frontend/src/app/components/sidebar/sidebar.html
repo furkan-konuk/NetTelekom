@@ -1,0 +1,52 @@
+<div class="h-full flex flex-col bg-net-primary text-white overflow-y-auto custom-scrollbar shadow-[4px_0_24px_rgba(0,0,0,0.1)]">
+  
+  <div class="h-[72px] flex-shrink-0 flex items-center justify-center border-b border-white/10 px-6">
+    <div class="text-xl font-bold tracking-widest text-white flex items-center gap-2">
+      <span class="w-8 h-8 rounded bg-net-accent flex items-center justify-center text-net-primary font-black">N</span>
+      NetTelekom
+    </div>
+  </div>
+
+  <nav class="flex-1 py-4 flex flex-col">
+    @for (menu of menuItems; track menu.id) {
+      <div class="border-b border-white/10 flex flex-col">
+        <!-- Eğer alt menü varsa button, yoksa routerLink -->
+        @if (menu.submenus && menu.submenus.length > 0) {
+          <button (click)="toggleMenu(menu.id, true)" 
+                  class="w-full flex items-center justify-between px-6 py-4 text-[14px] font-medium transition-all hover:bg-white/5"
+                  [ngClass]="{'bg-white/5 text-net-accent border-l-4 border-net-accent': activeMenu() === menu.id, 'border-l-4 border-transparent': activeMenu() !== menu.id}">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="menu.icon" />
+              </svg>
+              <span class="tracking-wide text-left">{{ menu.label }}</span>
+            </div>
+            <svg class="w-4 h-4 transition-transform duration-300" [ngClass]="{'rotate-180': activeMenu() === menu.id}" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          
+          @if (activeMenu() === menu.id) {
+            <div class="bg-black/20 flex flex-col py-2 px-14 space-y-1">
+              @for (submenu of menu.submenus; track submenu.route) {
+                <a [routerLink]="submenu.route" class="py-2 text-[13px] text-white/70 hover:text-net-accent hover:translate-x-1 transition-all">
+                  {{ submenu.label }}
+                </a>
+              }
+            </div>
+          }
+        } @else {
+          <a [routerLink]="menu.route" (click)="toggleMenu(menu.id, false)" 
+             class="w-full flex items-center justify-between px-6 py-4 text-[14px] font-medium transition-all hover:bg-white/5 border-l-4 border-transparent hover:border-net-accent hover:text-net-accent">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 opacity-80" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="menu.icon" />
+              </svg>
+              <span class="tracking-wide">{{ menu.label }}</span>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  </nav>
+</div>

@@ -1,0 +1,166 @@
+<div class="animate-fade-in-up w-full">
+  
+  <!-- Header / Breadcrumb -->
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">Ek Paket Al</h1>
+    <div class="flex items-center text-sm font-medium text-slate-500 gap-2">
+      <span class="hover:text-net-accent cursor-pointer transition-colors">Tarife ve Paketlerim</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      <span class="text-slate-800 font-bold">Ek Paket Al</span>
+    </div>
+  </div>
+
+  <div class="max-w-5xl">
+    
+    <!-- Package Type Selection -->
+    <div class="flex flex-wrap gap-4 mb-10">
+      <button (click)="packageType.set('internet')"
+              class="px-8 py-3 rounded-full font-bold text-sm transition-all duration-300"
+              [ngClass]="packageType() === 'internet' ? 'bg-net-primary text-white shadow-md' : 'bg-white border border-slate-200 text-slate-600 hover:border-slate-400'">
+        İnternet Paketleri
+      </button>
+      <button (click)="packageType.set('ses')"
+              class="px-8 py-3 rounded-full font-bold text-sm transition-all duration-300"
+              [ngClass]="packageType() === 'ses' ? 'bg-net-primary text-white shadow-md' : 'bg-white border border-slate-200 text-slate-600 hover:border-slate-400'">
+        Ses / Dakika Paketleri
+      </button>
+      <button (click)="packageType.set('sms')"
+              class="px-8 py-3 rounded-full font-bold text-sm transition-all duration-300"
+              [ngClass]="packageType() === 'sms' ? 'bg-net-primary text-white shadow-md' : 'bg-white border border-slate-200 text-slate-600 hover:border-slate-400'">
+        SMS Paketleri
+      </button>
+    </div>
+
+    <!-- Internet Packages -->
+    @if (packageType() === 'internet') {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in-up">
+        
+        <!-- Package Card 1 -->
+        <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group">
+          <div class="bg-net-accent px-6 py-4 flex justify-between items-center text-white">
+            <span class="font-bold">Aylık Ek İnternet</span>
+          </div>
+          <div class="p-8 text-center flex flex-col items-center">
+            <span class="text-6xl font-black text-slate-800 tracking-tighter group-hover:text-net-primary transition-colors">10<span class="text-2xl text-slate-500 font-bold ml-1">GB</span></span>
+            <p class="text-slate-500 mt-2 mb-8 text-sm">Fatura dönemi sonuna kadar geçerli</p>
+            <div class="text-3xl font-black text-net-primary mb-6">50 TL</div>
+            <button (click)="buyPackage('10 GB Aylık Ek İnternet', '50 TL', 10, 'GB')" class="w-full py-3 border-2 border-net-primary text-net-primary font-bold rounded-xl hover:bg-net-primary hover:text-white transition-colors">Hemen Al</button>
+          </div>
+        </div>
+
+        <!-- Package Card 2 -->
+        <div class="bg-white border-2 border-net-accent rounded-3xl overflow-hidden shadow-lg relative transition-all duration-300 group transform md:-translate-y-4">
+          <div class="absolute top-0 right-0 bg-net-accent text-white text-xs font-bold px-3 py-1 rounded-bl-lg">En Çok Satılan</div>
+          <div class="bg-net-primary px-6 py-4 flex justify-between items-center text-white">
+            <span class="font-bold">Aylık Ek İnternet</span>
+          </div>
+          <div class="p-8 text-center flex flex-col items-center">
+            <span class="text-6xl font-black text-slate-800 tracking-tighter group-hover:text-net-primary transition-colors">20<span class="text-2xl text-slate-500 font-bold ml-1">GB</span></span>
+            <p class="text-slate-500 mt-2 mb-8 text-sm">Fatura dönemi sonuna kadar geçerli</p>
+            <div class="text-3xl font-black text-net-primary mb-6">80 TL</div>
+            <button (click)="buyPackage('20 GB Aylık Ek İnternet', '80 TL', 20, 'GB')" class="w-full py-3 bg-net-primary text-white font-bold rounded-xl hover:bg-slate-800 shadow-md transition-colors">Hemen Al</button>
+          </div>
+        </div>
+
+        <!-- Package Card 3 -->
+        <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group">
+          <div class="bg-net-accent px-6 py-4 flex justify-between items-center text-white">
+            <span class="font-bold">Haftalık Ek İnternet</span>
+          </div>
+          <div class="p-8 text-center flex flex-col items-center">
+            <span class="text-6xl font-black text-slate-800 tracking-tighter group-hover:text-net-primary transition-colors">5<span class="text-2xl text-slate-500 font-bold ml-1">GB</span></span>
+            <p class="text-slate-500 mt-2 mb-8 text-sm">Satın alındıktan sonra 7 gün geçerli</p>
+            <div class="text-3xl font-black text-net-primary mb-6">30 TL</div>
+            <button (click)="buyPackage('5 GB Haftalık Ek İnternet', '30 TL', 5, 'GB')" class="w-full py-3 border-2 border-net-primary text-net-primary font-bold rounded-xl hover:bg-net-primary hover:text-white transition-colors">Hemen Al</button>
+          </div>
+        </div>
+
+      </div>
+    }
+
+    <!-- Voice Packages Placeholder -->
+    @if (packageType() === 'ses') {
+      <div class="p-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-300 animate-fade-in-up">
+        <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.896-1.596-5.48-4.18-7.076-7.076l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+        <p class="text-lg text-slate-500 font-medium">Şu anda size özel ek ses/dakika paketi bulunmamaktadır.</p>
+      </div>
+    }
+
+    <!-- SMS Packages Placeholder -->
+    @if (packageType() === 'sms') {
+      <div class="p-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-300 animate-fade-in-up">
+        <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
+        <p class="text-lg text-slate-500 font-medium">Şu anda size özel ek SMS paketi bulunmamaktadır.</p>
+      </div>
+    }
+
+    <!-- Success Message Overlay (Replacing grid if success) -->
+    @if (isSuccess()) {
+      <div class="fixed inset-0 z-[110] bg-white flex flex-col items-center justify-center p-4">
+        <div class="max-w-xl mx-auto bg-white rounded-3xl p-10 text-center animate-fade-in-up">
+          <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+            <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          </div>
+          <h2 class="text-3xl font-black text-slate-800 mb-2">Satın Alma Başarılı!</h2>
+          <p class="text-slate-500 text-lg mb-8"><strong>{{ selectedPackage()?.name }}</strong> paketi hattınıza tanımlanmıştır. Tutar bir sonraki faturanıza yansıtılacaktır.</p>
+          <button routerLink="/tarife/mevcut" class="bg-net-primary text-white font-bold px-8 py-4 rounded-xl hover:bg-net-accent transition-colors shadow-lg">
+            Kullanımlarımı Gör
+          </button>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>
+
+<!-- Modal -->
+@if (showModal()) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" (click)="closeModal()"></div>
+    
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden animate-fade-in-up scale-100">
+      <div class="bg-net-primary p-6 flex flex-col items-center text-center">
+        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 text-white shadow-inner backdrop-blur-md">
+          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
+        </div>
+        <h3 class="text-2xl font-black text-white">Paket Satın Alma</h3>
+      </div>
+      
+      <div class="p-6 text-center">
+        
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 text-left">
+          <h4 class="font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">Sipariş Özeti</h4>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-slate-500">Paket Adı</span>
+            <span class="font-semibold text-slate-800">{{ selectedPackage()?.name }}</span>
+          </div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-slate-500">İçerik</span>
+            <span class="font-semibold text-slate-800">{{ selectedPackage()?.amount }} {{ selectedPackage()?.unit }}</span>
+          </div>
+          <div class="flex justify-between items-center pt-3 border-t border-slate-200">
+            <span class="text-slate-500 font-medium">Toplam Tutar</span>
+            <span class="font-black text-xl text-net-primary">{{ selectedPackage()?.price }}</span>
+          </div>
+        </div>
+
+        <div class="mb-8 text-left max-w-[250px] mx-auto">
+          <label class="block text-sm font-bold text-slate-700 mb-2">Ödeme Yöntemi</label>
+          <select [ngModel]="paymentMethod()" (ngModelChange)="paymentMethod.set($event)" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-3 outline-none focus:border-net-accent focus:ring-1 focus:ring-net-accent transition-all font-medium text-slate-700">
+            <option value="Kredi Kartı">Kredi Kartı</option>
+            <option value="Fatura">Faturaya Yansıt</option>
+          </select>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button (click)="closeModal()" class="flex-1 px-6 py-3 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-colors">
+            Vazgeç
+          </button>
+          <button (click)="confirmPurchase()" class="flex-1 px-6 py-3 bg-net-primary text-white font-bold rounded-xl hover:bg-net-accent shadow-lg transition-all">
+            Satın Al
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

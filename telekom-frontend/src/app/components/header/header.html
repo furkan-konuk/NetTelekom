@@ -1,0 +1,65 @@
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-2xl border-b border-slate-200/60 shadow-sm transition-all duration-300">
+  <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-2xl">
+    <div class="flex justify-between h-20 items-center">
+      <div class="flex items-center gap-4">
+        <!-- Premium Logo Section -->
+        <div class="flex items-center gap-4 group cursor-pointer" routerLink="/dashboard">
+          <div class="w-12 h-12 relative flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
+            <!-- Logo Arkaplan ve Glow -->
+            <div class="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-700 rounded-2xl shadow-lg shadow-cyan-500/40"></div>
+            <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity"></div>
+            <!-- Çok Katmanlı SVG İkon -->
+            <svg class="w-7 h-7 text-white relative z-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12Z" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4" class="animate-spin" style="animation-duration: 10s;"/>
+              <path d="M12 8L16 16H8L12 8Z" fill="currentColor"/>
+              <circle cx="12" cy="12" r="2" fill="white"/>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-2xl font-black text-slate-800 tracking-tighter leading-none group-hover:text-cyan-700 transition-colors">Net<span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-700">Telekom</span></span>
+            <span class="text-[10px] font-extrabold text-slate-400 tracking-widest uppercase mt-0.5">Kurumsal Ağ</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-6">
+        <!-- Hızlı Öde CTA Butonu (Shine Effect) -->
+        <button routerLink="/fatura/ode" class="relative overflow-hidden bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow-lg shadow-cyan-600/30 hover:shadow-cyan-600/50 hover:-translate-y-0.5 transition-all group">
+          <span class="relative z-10 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>
+            Hızlı Öde
+          </span>
+          <!-- Shine Element -->
+          <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:animate-shine"></div>
+        </button>
+        
+        <!-- Bildirimler -->
+        <button routerLink="/abonelik/bilgi" class="relative text-slate-400 hover:text-cyan-600 transition-colors p-2 rounded-full hover:bg-cyan-50">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+          </svg>
+          <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+        </button>
+
+        <!-- Kullanıcı Avatarı -->
+        <div class="flex items-center gap-3 pl-6 border-l border-slate-200 group">
+          <div class="text-right hidden md:block">
+            <div class="text-sm font-bold text-slate-800">{{ userName() }}</div>
+            <div class="text-xs text-slate-500 font-medium">{{ userPhone() }}</div>
+          </div>
+          <div class="w-12 h-12 rounded-full bg-slate-100 border-2 border-transparent transition-all flex items-center justify-center overflow-hidden">
+            <div class="w-full h-full bg-gradient-to-br from-cyan-600 to-blue-700 text-white flex items-center justify-center font-bold text-lg">
+              {{ userInitials() }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Çıkış Yap Butonu -->
+        <button (click)="logout()" class="text-slate-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-red-50" title="Çıkış Yap">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

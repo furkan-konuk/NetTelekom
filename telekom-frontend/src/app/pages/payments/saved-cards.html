@@ -1,0 +1,104 @@
+<div class="animate-fade-in-up w-full">
+  
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">Kayıtlı Kartlarım</h1>
+    <div class="flex items-center text-sm font-medium text-slate-500 gap-2">
+      <span class="hover:text-net-accent cursor-pointer transition-colors">Ödeme ve TL İşlemlerim</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      <span class="text-slate-800 font-bold">Kayıtlı Kartlarım</span>
+    </div>
+  </div>
+
+  <div class="max-w-4xl">
+    
+    <div class="flex justify-between items-center mb-8">
+      <p class="text-slate-500">Faturalarınızı ve paket alımlarınızı hızlıca yapmak için kartlarınızı kaydedebilirsiniz.</p>
+      <button (click)="openAddModal()" class="flex items-center gap-2 bg-net-primary text-white font-bold px-6 py-3 rounded-xl hover:bg-net-accent transition-colors shadow-lg">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+        Yeni Kart Ekle
+      </button>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      @for (card of cards(); track card.id) {
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden group">
+          <!-- Dekoratif Çemberler -->
+          <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+          
+          <div class="flex justify-between items-start mb-8 relative z-10">
+            <div class="text-2xl font-black italic tracking-wider opacity-80">{{ card.type }}</div>
+            <button (click)="deleteCard(card.id)" class="text-white/40 hover:text-red-400 transition-colors bg-white/10 p-2 rounded-lg opacity-0 group-hover:opacity-100">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
+            </button>
+          </div>
+          
+          <div class="text-2xl font-mono mb-6 tracking-widest relative z-10 text-white/90">
+            **** **** **** {{ card.last4 }}
+          </div>
+          
+          <div class="flex justify-between items-end relative z-10">
+            <div>
+              <div class="text-[10px] text-white/50 uppercase tracking-widest mb-1">Kart Sahibi</div>
+              <div class="font-bold text-sm tracking-wide">{{ card.name }}</div>
+            </div>
+            <div>
+              <div class="text-[10px] text-white/50 uppercase tracking-widest mb-1">SKT</div>
+              <div class="font-bold text-sm tracking-wide">{{ card.expiry }}</div>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="col-span-2 p-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-300">
+          <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
+          <p class="text-lg text-slate-500 font-medium">Sistemde kayıtlı bir kartınız bulunmamaktadır.</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Yeni Kart Ekle Modalı -->
+@if (showAddModal()) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" (click)="closeAddModal()"></div>
+    
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden animate-fade-in-up scale-100">
+      <div class="bg-net-primary p-6 text-center text-white">
+        <h3 class="text-xl font-black">Yeni Kredi Kartı Ekle</h3>
+      </div>
+      
+      <div class="p-8">
+        <div class="flex flex-col gap-5">
+          <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1">Kart Üzerindeki İsim</label>
+            <input type="text" (input)="newCard.name = $any($event.target).value" placeholder="AD SOYAD" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1">Kart Numarası</label>
+            <input type="text" (input)="newCard.number = $any($event.target).value" placeholder="0000 0000 0000 0000" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-1">Son Kullanma Tarihi</label>
+              <input type="text" (input)="newCard.expiry = $any($event.target).value" placeholder="AA/YY" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-1">CVC</label>
+              <input type="text" (input)="newCard.cvc = $any($event.target).value" placeholder="123" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex gap-3 mt-8">
+          <button (click)="closeAddModal()" class="flex-1 px-6 py-3 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-colors">
+            İptal
+          </button>
+          <button (click)="saveCard()" class="flex-1 px-6 py-3 bg-net-primary text-white font-bold rounded-xl hover:bg-net-accent transition-all shadow-lg">
+            Kaydet
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,126 @@
+<div class="animate-fade-in-up w-full">
+  
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">{{ appTitle() }}</h1>
+    <div class="flex items-center text-sm font-medium text-slate-500 gap-2">
+      <span class="hover:text-net-accent cursor-pointer transition-colors">Abonelik İşlemleri</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      <span class="text-slate-800 font-bold">Yeni Başvuru</span>
+    </div>
+  </div>
+
+  <div class="max-w-4xl">
+    
+    @if (!isSuccess()) {
+      <!-- Stepper -->
+      <div class="mb-10">
+        <div class="flex items-center justify-between relative">
+          <!-- Bağlantı Çizgisi -->
+          <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-slate-200 z-0 rounded-full"></div>
+          <div class="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-net-primary z-0 rounded-full transition-all duration-500"
+               [style.width]="(step() === 1 ? '0%' : '100%')"></div>
+          
+          <!-- Adım 1 -->
+          <div class="relative z-10 flex flex-col items-center gap-2">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg border-4 transition-colors"
+                 [ngClass]="step() >= 1 ? 'bg-net-primary border-blue-100 text-white' : 'bg-white border-slate-200 text-slate-400'">
+              1
+            </div>
+            <span class="text-sm font-bold" [ngClass]="step() >= 1 ? 'text-net-primary' : 'text-slate-400'">Kişisel Bilgiler</span>
+          </div>
+          
+          <!-- Adım 2 -->
+          <div class="relative z-10 flex flex-col items-center gap-2">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg border-4 transition-colors"
+                 [ngClass]="step() >= 2 ? 'bg-net-primary border-blue-100 text-white' : 'bg-white border-slate-200 text-slate-400'">
+              2
+            </div>
+            <span class="text-sm font-bold" [ngClass]="step() >= 2 ? 'text-net-primary' : 'text-slate-400'">İletişim & Onay</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8 relative min-h-[300px]">
+        <!-- Adım 1: Kişisel Bilgiler -->
+        @if (step() === 1) {
+          <div class="animate-fade-in">
+            <h3 class="text-2xl font-bold text-slate-800 mb-6">Kimlik Bilgilerinizi Girin</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">T.C. Kimlik No</label>
+                <input type="text" placeholder="11 Haneli TCKN" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">Doğum Tarihi</label>
+                <input type="date" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 text-slate-700" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">Adınız</label>
+                <input type="text" placeholder="Adınız" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">Soyadınız</label>
+                <input type="text" placeholder="Soyadınız" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">E-Posta Adresi</label>
+                <input type="email" placeholder="ornek@email.com" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-600 mb-1">Mevcut İletişim Numarası</label>
+                <input type="text" placeholder="05XX XXX XX XX" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Adım 2: İletişim & Onay -->
+        @if (step() === 2) {
+          <div class="animate-fade-in">
+            <h3 class="text-2xl font-bold text-slate-800 mb-6">Kurulum ve İletişim Adresi</h3>
+            <p class="text-slate-500 mb-4">Size ulaşabileceğimiz tam adresi giriniz.</p>
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-slate-600 mb-1">Açık Adres</label>
+              <textarea rows="3" placeholder="Mahalle, sokak, bina ve daire no..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:border-net-primary focus:ring-1 resize-none"></textarea>
+            </div>
+            
+            <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3">
+              <input type="checkbox" class="mt-1 w-5 h-5 rounded border-slate-300 text-net-primary focus:ring-net-primary" checked />
+              <p class="text-sm text-blue-800">Abonelik sözleşmesini okudum ve kabul ediyorum. Başvuru işlemlerim için gerekli onayları veriyorum.</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-between items-center">
+        <button (click)="prevStep()" [disabled]="step() === 1" 
+                class="px-8 py-3 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-0">
+          Geri
+        </button>
+        <button (click)="nextStep()" 
+                class="px-10 py-3 bg-net-primary text-white font-bold rounded-xl hover:bg-net-accent transition-colors shadow-lg">
+          {{ step() === 2 ? 'Başvuruyu Tamamla' : 'Devam Et' }}
+        </button>
+      </div>
+
+    } @else {
+      <!-- Success Message -->
+      <div class="max-w-xl mx-auto mt-10 bg-white rounded-3xl p-10 border border-slate-200 shadow-xl text-center animate-fade-in-up">
+        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+          <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        </div>
+        <h2 class="text-3xl font-black text-slate-800 mb-2">Başvurunuz Alındı!</h2>
+        <p class="text-slate-500 text-lg mb-8">Başvurunuz başarıyla oluşturulmuştur. Temsilcilerimiz en kısa sürede adresinizde kurulum işlemlerini gerçekleştirmek veya sim kartınızı teslim etmek üzere sizinle iletişime geçecektir.</p>
+        <div class="bg-slate-50 rounded-xl p-4 mb-8 text-center">
+          <p class="text-sm text-slate-500 mb-1">Başvuru Takip Numaranız</p>
+          <p class="font-mono text-2xl font-bold tracking-widest text-slate-800">{{ trackingNumber() }}</p>
+        </div>
+        <button routerLink="/dashboard" class="bg-net-primary text-white font-bold px-8 py-4 rounded-xl hover:bg-net-accent transition-colors shadow-lg w-full">
+          Ana Sayfaya Dön
+        </button>
+      </div>
+    }
+
+  </div>
+</div>

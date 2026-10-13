@@ -1,0 +1,118 @@
+<div class="animate-fade-in-up w-full">
+  
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">{{ mode() === 'transfer' ? 'Hat Devir İşlemleri' : 'Abonelik İptali' }}</h1>
+    <div class="flex items-center text-sm font-medium text-slate-500 gap-2">
+      <span class="hover:text-net-accent cursor-pointer transition-colors">Abonelik İşlemleri</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      <span class="text-slate-800 font-bold">{{ mode() === 'transfer' ? 'Devir' : 'İptal' }}</span>
+    </div>
+  </div>
+
+  <div class="max-w-4xl">
+    
+    <div class="flex gap-2 mb-8 bg-slate-100 p-2 rounded-2xl w-fit">
+      <button (click)="setMode('transfer')" class="px-6 py-2.5 rounded-xl font-bold transition-all"
+              [ngClass]="mode() === 'transfer' ? 'bg-white text-net-primary shadow' : 'text-slate-500 hover:text-slate-700'">Hat Devretme</button>
+      <button (click)="setMode('cancel')" class="px-6 py-2.5 rounded-xl font-bold transition-all"
+              [ngClass]="mode() === 'cancel' ? 'bg-white text-red-600 shadow' : 'text-slate-500 hover:text-slate-700'">Abonelik İptal</button>
+    </div>
+
+    @if (!isSuccess()) {
+      
+      @if (mode() === 'transfer') {
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm animate-fade-in-up">
+          <h3 class="text-xl font-bold text-slate-800 mb-2">Hattınızı Devredin</h3>
+          <p class="text-slate-500 mb-8">Hattınızı başka bir kullanıcıya devredebilirsiniz. Devir işlemi sonrası tüm yasal sorumluluk yeni kullanıcıya geçer.</p>
+          
+          <div class="flex flex-col gap-6 max-w-xl">
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-1">Devralacak Kişinin TCKN / VKN'si</label>
+              <input type="text" placeholder="11 Haneli TCKN giriniz" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-1">Devralacak Kişinin İletişim Numarası</label>
+              <input type="text" placeholder="5XX XXX XX XX" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+            </div>
+            <button (click)="openModal()" class="w-full h-14 bg-net-primary text-white font-bold rounded-xl hover:bg-net-accent transition-colors shadow-lg mt-4">
+              Devir İşlemini Başlat
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="bg-red-50 border border-red-100 rounded-3xl p-8 shadow-sm animate-fade-in-up">
+          <div class="flex items-start gap-4 mb-8">
+            <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center shrink-0">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3Z" /></svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-red-800 mb-1">Aboneliğinizi İptal Etmek Üzeresiniz</h3>
+              <p class="text-red-700/80 text-sm">Abonelik iptali durumunda hattınız kalıcı olarak kapatılır. Varsa kalan taahhüt cayma bedeli son faturanıza yansıtılır.</p>
+            </div>
+          </div>
+          
+          <div class="flex flex-col gap-6 max-w-xl">
+            <div>
+              <label class="block text-sm font-bold text-red-800 mb-2">İptal Nedeniniz Nedir?</label>
+              <select class="w-full h-12 bg-white border border-red-200 rounded-xl px-4 outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 text-slate-700">
+                <option>Fiyatları yüksek buldum</option>
+                <option>Çekim kalitesi yetersiz</option>
+                <option>Müşteri hizmetlerinden memnun değilim</option>
+                <option>Diğer operatöre geçiş yaptım/yapacağım</option>
+                <option>Diğer</option>
+              </select>
+            </div>
+            <button (click)="openModal()" class="w-full h-14 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-colors shadow-lg mt-4 shadow-red-600/20">
+              İptal Başvurusunu Tamamla
+            </button>
+          </div>
+        </div>
+      }
+
+    } @else {
+      <!-- Success Message -->
+      <div class="max-w-xl mx-auto mt-10 bg-white rounded-3xl p-10 border border-slate-200 shadow-xl text-center animate-fade-in-up">
+        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+          <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        </div>
+        <h2 class="text-3xl font-black text-slate-800 mb-2">Talebiniz Alındı!</h2>
+        <p class="text-slate-500 text-lg mb-8">
+          {{ mode() === 'transfer' ? 'Hat devir talebiniz başarıyla oluşturulmuştur. Devralan kişiye onay SMS\'i gönderilecektir.' : 'Abonelik iptal talebiniz alınmıştır. Müşteri temsilcilerimiz en kısa sürede sizinle iletişime geçecektir.' }}
+        </p>
+        <button routerLink="/dashboard" class="bg-net-primary text-white font-bold px-8 py-4 rounded-xl hover:bg-net-accent transition-colors shadow-lg">
+          Ana Sayfaya Dön
+        </button>
+      </div>
+    }
+
+  </div>
+</div>
+
+<!-- Modal -->
+@if (showModal()) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" (click)="closeModal()"></div>
+    
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden animate-fade-in-up scale-100">
+      <div class="p-6 text-center border-b" [ngClass]="mode() === 'transfer' ? 'bg-blue-50 border-blue-100' : 'bg-red-50 border-red-100'">
+        <h3 class="text-2xl font-black" [ngClass]="mode() === 'transfer' ? 'text-blue-700' : 'text-red-700'">Son Onay</h3>
+      </div>
+      
+      <div class="p-8 text-center">
+        <p class="text-slate-600 font-medium mb-8 text-lg">
+          {{ mode() === 'transfer' ? 'Hattınızın mülkiyetini belirtilen TCKN sahibine devretmek istediğinizi onaylıyor musunuz?' : 'Hattınızı tamamen kapatmak ve aboneliğinizi sonlandırmak istediğinizi onaylıyor musunuz?' }}
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button (click)="closeModal()" class="flex-1 px-6 py-3 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-colors">
+            Vazgeç
+          </button>
+          <button (click)="confirmAction()" class="flex-1 px-6 py-3 text-white font-bold rounded-xl transition-all shadow-lg"
+                  [ngClass]="mode() === 'transfer' ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/30' : 'bg-red-600 hover:bg-red-700 shadow-red-600/30'">
+            Evet, Onaylıyorum
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

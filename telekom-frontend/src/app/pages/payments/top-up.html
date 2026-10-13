@@ -1,0 +1,71 @@
+<div class="animate-fade-in-up w-full">
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">TL Yükle</h1>
+    <p class="text-slate-500">Hattınıza anında ve güvenli bir şekilde TL yükleyin.</p>
+  </div>
+
+  @if (!isSuccess()) {
+    <div class="max-w-2xl flex flex-col gap-8">
+      <!-- Miktar Seçimi -->
+      <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+        <h3 class="text-lg font-bold text-slate-800 mb-4">Yüklenecek Miktar (TL)</h3>
+        <div class="grid grid-cols-3 sm:grid-cols-5 gap-3">
+          @for (amount of amounts; track amount) {
+            <button 
+              (click)="selectAmount(amount)"
+              class="h-14 rounded-2xl font-bold text-lg transition-all"
+              [ngClass]="selectedAmount() === amount ? 'bg-net-primary text-white shadow-md scale-105' : 'bg-slate-50 text-slate-600 border border-slate-200 hover:border-net-primary hover:text-net-primary'">
+              {{ amount }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Kredi Kartı Formu -->
+      <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+        <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+          <svg class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
+          Ödeme Bilgileri
+        </h3>
+        
+        <div class="flex flex-col gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1">Kart Üzerindeki İsim</label>
+            <input type="text" placeholder="AD SOYAD" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-600 mb-1">Kart Numarası</label>
+            <input type="text" placeholder="0000 0000 0000 0000" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-1">Son Kullanma Tarihi</label>
+              <input type="text" placeholder="AA/YY" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-600 mb-1">CVC</label>
+              <input type="text" placeholder="123" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1 focus:ring-net-primary" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Öde Butonu -->
+      <button (click)="processPayment()" class="w-full h-14 bg-gradient-to-r from-net-primary to-net-accent text-white font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+        {{ selectedAmount() }} TL Yükle
+      </button>
+    </div>
+  } @else {
+    <!-- Success Message -->
+    <div class="max-w-xl mx-auto mt-10 bg-white rounded-3xl p-10 border border-slate-200 shadow-xl text-center animate-fade-in">
+      <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+        <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+      </div>
+      <h2 class="text-2xl font-black text-slate-800 mb-2">İşlem Başarılı!</h2>
+      <p class="text-slate-500 mb-8">Hattınıza başarıyla <span class="font-bold text-slate-700">{{ selectedAmount() }} TL</span> yüklendi.</p>
+      <button onclick="window.location.reload()" class="bg-slate-100 text-slate-700 font-bold px-6 py-3 rounded-xl hover:bg-slate-200 transition-colors">
+        Yeni Bir Yükleme Yap
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,84 @@
+<div class="animate-fade-in-up w-full">
+  
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">Hediye İnternet</h1>
+    <div class="flex items-center text-sm font-medium text-slate-500 gap-2">
+      <span class="hover:text-net-accent cursor-pointer transition-colors">Net Fırsatlar</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      <span class="text-slate-800 font-bold">Çarkıfelek</span>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-gradient-to-b from-blue-900 to-indigo-900 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
+      
+      <!-- Decorative Elements -->
+      <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, white 2px, transparent 2px); background-size: 30px 30px;"></div>
+      <div class="absolute -top-20 -right-20 w-64 h-64 bg-net-accent/30 rounded-full blur-3xl"></div>
+      
+      <div class="text-center relative z-10 mb-10">
+        <h2 class="text-4xl font-black text-white mb-2 tracking-wide text-shadow-sm">Haftalık Hediyeni Çevir</h2>
+        <p class="text-blue-200 text-lg">Her hafta bir kere çarkı çevir, sürpriz internet kazan!</p>
+      </div>
+
+      <!-- Wheel Container -->
+      <div class="relative w-80 h-80 sm:w-96 sm:h-96 mx-auto mb-12">
+        <!-- Pointer -->
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-12 z-20">
+          <svg class="w-full h-full text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21l-9-15h18z" /></svg>
+        </div>
+
+        <!-- The Wheel -->
+        <div class="w-full h-full rounded-full border-8 border-white/20 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden wheel relative bg-white"
+             [style.transform]="'rotate(' + rotation() + 'deg)'">
+          
+          <!-- Wheel Segments (CSS drawing) -->
+          @for (prizeText of prizes; track $index) {
+            <div class="absolute top-0 left-1/2 w-1/2 h-1/2 origin-bottom-left"
+                 [style.transform]="'rotate(' + ($index * 60) + 'deg) skewY(30deg)'"
+                 [ngClass]="$index % 2 === 0 ? 'bg-net-primary' : 'bg-net-accent'">
+            </div>
+          }
+          
+          <!-- Wheel Text -->
+          @for (prizeText of prizes; track $index) {
+            <div class="absolute top-0 left-0 w-full h-full"
+                 [style.transform]="'rotate(' + ($index * 60 + 30) + 'deg)'">
+              <div class="absolute top-4 left-1/2 -translate-x-1/2 text-white font-bold text-center w-24 transform -rotate-90 origin-bottom" style="margin-top: 20px; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                {{ prizeText }}
+              </div>
+            </div>
+          }
+          
+          <!-- Center Point -->
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-inner border-4 border-slate-200 z-10 flex items-center justify-center">
+            <div class="w-4 h-4 bg-slate-800 rounded-full"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="text-center relative z-10">
+        @if (alreadyPlayedThisWeek()) {
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 animate-fade-in-up inline-block min-w-[300px]">
+            <p class="text-blue-200 mb-2">Haftalık Hakkınız Doldu</p>
+            <div class="text-xl font-bold text-white text-shadow mb-2">Bu hafta çarkı zaten çevirdiniz!</div>
+            <p class="text-sm text-blue-300">Lütfen haftaya tekrar deneyin.</p>
+          </div>
+        } @else if (!hasPlayed()) {
+          <button (click)="spin()" [disabled]="isSpinning()" 
+                  class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-2xl font-black px-12 py-5 rounded-full shadow-[0_0_30px_rgba(245,158,11,0.6)] hover:scale-105 transition-transform disabled:opacity-50 disabled:hover:scale-100">
+            {{ isSpinning() ? 'ÇEVRİLİYOR...' : 'ÇARKIFELEĞİ ÇEVİR' }}
+          </button>
+        } @else {
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 animate-fade-in-up inline-block min-w-[300px]">
+            <p class="text-blue-200 mb-2">Tebrikler, Kazandınız!</p>
+            <div class="text-4xl font-black text-white text-shadow mb-4">{{ prize() }}</div>
+            <p class="text-sm text-blue-300">Hediyeniz hattınıza tanımlandı.</p>
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+</div>

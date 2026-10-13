@@ -1,0 +1,79 @@
+<div class="relative w-full rounded-2xl overflow-hidden shadow-xl transition-transform duration-500 hover:-translate-y-2 group border"
+     [ngClass]="isPremium() ? 'bg-net-primary text-white border-transparent' : 'bg-white text-slate-800 border-slate-200'">
+  
+  <!-- Geometrik Arka Plan (Çapraz Kesimler - Clip Path) -->
+  @if (isPremium()) {
+    <!-- Premium: Koyu arka plan üzerine cyan/mavi üçgenler -->
+    <div class="absolute top-0 right-0 w-[80%] h-[70%] bg-net-accent opacity-20 [clip-path:polygon(100%_0,100%_100%,0_0)] transition-transform duration-700 group-hover:scale-110 pointer-events-none z-0"></div>
+    <div class="absolute bottom-0 left-0 w-[70%] h-[50%] bg-blue-600 opacity-20 [clip-path:polygon(0_100%,100%_100%,0_0)] transition-transform duration-700 group-hover:scale-110 pointer-events-none z-0"></div>
+  } @else {
+    <!-- Standart: Açık arka plan üzerine koyu lacivert ve cyan üçgenler -->
+    <div class="absolute top-0 right-0 w-[60%] h-[50%] bg-net-primary opacity-[0.03] [clip-path:polygon(100%_0,100%_100%,0_0)] transition-transform duration-700 group-hover:scale-110 pointer-events-none z-0"></div>
+    <div class="absolute bottom-0 left-0 w-[50%] h-[40%] bg-net-accent opacity-10 [clip-path:polygon(0_100%,100%_100%,0_0)] transition-transform duration-700 group-hover:scale-110 pointer-events-none z-0"></div>
+  }
+
+  <!-- Rozet (Badge/Ribbon) -->
+  @if (badgeText()) {
+    <div class="absolute top-0 right-0 z-20">
+      <div class="px-5 py-1.5 text-[11px] font-black text-white uppercase tracking-wider rounded-bl-2xl shadow-lg"
+           [ngClass]="badgeColor()">
+        {{ badgeText() }}
+      </div>
+    </div>
+  }
+
+  <!-- İçerik -->
+  <div class="relative z-10 p-8 flex flex-col h-full">
+    <!-- Başlık -->
+    <h3 class="text-xl font-black mb-6 tracking-tight"
+        [ngClass]="isPremium() ? 'text-white' : 'text-net-primary'">
+      {{ title() }}
+    </h3>
+    
+    <!-- Kullanım Detayları (GB, DK, SMS) -->
+    <div class="flex justify-between items-center mb-8">
+      <!-- Data -->
+      <div class="flex flex-col items-center flex-1">
+        <span class="text-3xl font-black" [ngClass]="isPremium() ? 'text-net-accent' : 'text-net-primary'">{{ data().split(' ')[0] }}</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest mt-1" [ngClass]="isPremium() ? 'text-white/60' : 'text-slate-400'">{{ data().split(' ').slice(1).join(' ') || 'GB' }}</span>
+      </div>
+      <!-- Ayracı -->
+      <div class="w-px h-10" [ngClass]="isPremium() ? 'bg-white/10' : 'bg-slate-200'"></div>
+      <!-- Voice -->
+      <div class="flex flex-col items-center flex-1">
+        <span class="text-3xl font-black" [ngClass]="isPremium() ? 'text-white' : 'text-slate-700'">{{ voice().split(' ')[0] }}</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest mt-1" [ngClass]="isPremium() ? 'text-white/60' : 'text-slate-400'">{{ voice().split(' ').slice(1).join(' ') || 'DK' }}</span>
+      </div>
+      <!-- Ayracı -->
+      <div class="w-px h-10" [ngClass]="isPremium() ? 'bg-white/10' : 'bg-slate-200'"></div>
+      <!-- SMS -->
+      <div class="flex flex-col items-center flex-1">
+        <span class="text-3xl font-black" [ngClass]="isPremium() ? 'text-white' : 'text-slate-700'">{{ sms().split(' ')[0] }}</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest mt-1" [ngClass]="isPremium() ? 'text-white/60' : 'text-slate-400'">{{ sms().split(' ').slice(1).join(' ') || 'SMS' }}</span>
+      </div>
+    </div>
+    
+    <!-- Fiyat ve Buton -->
+    <div class="mt-auto flex items-end justify-between pt-6 border-t" [ngClass]="isPremium() ? 'border-white/10' : 'border-slate-100'">
+      <div class="flex flex-col">
+        <span class="text-[10px] font-bold uppercase tracking-wider mb-1" [ngClass]="isPremium() ? 'text-white/50' : 'text-slate-400'">Aylık</span>
+        <div class="flex items-baseline gap-1" [ngClass]="isPremium() ? 'text-white' : 'text-net-primary'">
+          <span class="text-3xl font-black">{{ price() }}</span>
+          <span class="text-sm font-bold">{{ currency() }}</span>
+        </div>
+      </div>
+      
+      @if (actionUrl()) {
+        <button [routerLink]="actionUrl()" class="px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-md group-hover:shadow-xl group-hover:scale-105"
+                [ngClass]="isPremium() ? 'bg-net-accent text-net-primary hover:bg-white' : 'bg-net-primary text-white hover:bg-net-accent'">
+          {{ actionLabel() }}
+        </button>
+      } @else {
+        <button (click)="onActionClick()" class="px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-md group-hover:shadow-xl group-hover:scale-105"
+                [ngClass]="isPremium() ? 'bg-net-accent text-net-primary hover:bg-white' : 'bg-net-primary text-white hover:bg-net-accent'">
+          {{ actionLabel() }}
+        </button>
+      }
+    </div>
+  </div>
+</div>

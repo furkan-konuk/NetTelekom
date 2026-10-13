@@ -1,0 +1,88 @@
+<!-- Floating Chatbot Widget -->
+<div class="fixed bottom-6 right-6 z-[100] font-sans flex flex-col items-end">
+  
+  <!-- Chat Window -->
+  @if (isOpen()) {
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-[350px] h-[500px] mb-4 overflow-hidden flex flex-col animate-fade-in-up origin-bottom-right">
+      
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-net-primary to-slate-800 p-4 flex items-center justify-between shadow-md z-10">
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+              <span class="text-white font-black text-lg shadow-sm">N</span>
+            </div>
+            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-white font-bold tracking-wide">NetTelekom Asistan</span>
+            <span class="text-green-400 text-xs font-medium flex items-center gap-1">
+              Çevrimiçi
+            </span>
+          </div>
+        </div>
+        <button (click)="toggleChat()" class="text-white/70 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Messages Area -->
+      <div #chatContainer class="flex-1 overflow-y-auto p-4 bg-slate-50 flex flex-col gap-4 scroll-smooth">
+        @for (msg of messages(); track $index) {
+          <div class="flex flex-col max-w-[85%] animate-fade-in"
+               [ngClass]="msg.isBot ? 'self-start' : 'self-end items-end'">
+            <div class="p-3 rounded-2xl text-sm shadow-sm relative group"
+                 [ngClass]="msg.isBot ? 'bg-white text-slate-700 border border-slate-100 rounded-tl-sm' : 'bg-net-accent text-white rounded-tr-sm'">
+              {{ msg.text }}
+            </div>
+            <span class="text-[10px] text-slate-400 mt-1 font-medium px-1">{{ msg.time }}</span>
+          </div>
+        }
+        
+        @if (isTyping()) {
+          <div class="self-start bg-white border border-slate-100 p-3 rounded-2xl rounded-tl-sm shadow-sm flex gap-1.5 items-center w-16 h-10">
+            <div class="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+            <div class="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+            <div class="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+          </div>
+        }
+      </div>
+
+      <!-- Input Area -->
+      <div class="p-3 bg-white border-t border-slate-100">
+        <form (ngSubmit)="sendMessage()" class="flex items-center gap-2 relative">
+          <input type="text" [(ngModel)]="userInput" name="userInput"
+                 placeholder="Bir mesaj yazın..." 
+                 class="w-full h-12 pl-4 pr-12 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-net-accent focus:ring-1 focus:ring-net-accent transition-all"
+                 autocomplete="off" />
+          <button type="submit" [disabled]="!userInput().trim() || isTyping()"
+                  class="absolute right-2 w-8 h-8 flex items-center justify-center bg-net-primary text-white rounded-lg hover:bg-net-accent transition-colors disabled:opacity-50 disabled:hover:bg-net-primary shadow-sm">
+            <svg class="w-4 h-4 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+            </svg>
+          </button>
+        </form>
+      </div>
+      
+    </div>
+  }
+
+  <!-- Floating Button -->
+  <button (click)="toggleChat()" 
+          class="w-16 h-16 bg-gradient-to-tr from-net-primary to-net-accent rounded-full shadow-2xl text-white flex items-center justify-center hover:scale-110 transition-transform duration-300 group relative">
+    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 rounded-full transition-opacity"></div>
+    @if (!isOpen()) {
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+      </svg>
+      <!-- Notification Badge -->
+      <div class="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full border-2 border-white animate-pulse"></div>
+    } @else {
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    }
+  </button>
+</div>

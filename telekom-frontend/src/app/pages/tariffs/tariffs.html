@@ -1,0 +1,99 @@
+<div class="space-y-12">
+  
+  <!-- Tarifeler Bölümü -->
+  <section>
+    <div class="mb-12 rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-r from-slate-900 via-blue-900 to-cyan-800 p-10 md:p-16 max-w-6xl mx-auto flex items-center relative group animate-fade-in-up">
+      <!-- Premium Glass Effect -->
+      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-50"></div>
+      <div class="absolute -top-32 -right-32 w-96 h-96 bg-cyan-400 rounded-full mix-blend-overlay filter blur-3xl opacity-40 group-hover:opacity-60 transition-opacity duration-700 animate-blob"></div>
+      <div class="absolute bottom-10 left-10 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-[80px] opacity-30 animate-blob animation-delay-300"></div>
+      
+      <div class="max-w-3xl text-white relative z-10">
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4 drop-shadow-lg leading-tight">Sana Özel <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-200 relative inline-block">Ayrıcalıklı<div class="absolute inset-0 w-full h-full bg-white/20 blur-lg animate-pulse mix-blend-overlay"></div></span> Tarifeler</h1>
+        <p class="text-blue-100 text-lg md:text-xl drop-shadow font-medium opacity-90">İhtiyacına en uygun tarifeyi seç, fiber hızında dünyaya bağlan.</p>
+      </div>
+    </div>
+
+    @if (isLoading()) {
+      <div class="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+        <svg class="w-16 h-16 text-cyan-500 animate-spin" viewBox="0 0 24 24" fill="none">
+          <path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12Z" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+          <circle cx="12" cy="12" r="3" fill="currentColor"/>
+        </svg>
+        <p class="text-slate-500 font-bold text-lg animate-pulse">Tarifeler yükleniyor...</p>
+      </div>
+    } @else if (error()) {
+      <div class="bg-red-50 border border-red-200 text-red-600 p-8 rounded-3xl flex flex-col items-center text-center shadow-lg max-w-xl mx-auto mt-10">
+        <svg class="w-16 h-16 mb-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3Z" />
+        </svg>
+        <h2 class="text-2xl font-black mb-2">Bağlantı Hatası</h2>
+        <p class="font-medium text-red-500 mb-6">{{ error() }}</p>
+        <p class="text-sm text-red-400">Lütfen Spring Boot sunucusunun arka planda çalıştığından emin olun.</p>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto animate-fade-in-up animation-delay-200 relative">
+        <!-- Arka planda uçuşan blob -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+          <div class="w-full h-[500px] bg-cyan-100/30 rounded-full mix-blend-multiply filter blur-[120px] animate-blob"></div>
+        </div>
+        @for (tariff of tariffs(); track tariff.id) {
+          <app-tariff-card
+            [title]="tariff.name"
+            [data]="tariff.internet + (tariff.internet === 'Sınırsız' ? '' : ' GB')"
+            [voice]="tariff.minutes + ' DK'"
+            [sms]="tariff.sms + ' SMS'"
+            [price]="tariff.price.toString()"
+            [isPremium]="tariff.isPremium"
+            [badgeText]="tariff.badge"
+            [badgeColor]="tariff.badgeColor">
+          </app-tariff-card>
+        }
+      </div>
+    }
+  </section>
+
+  <!-- Dijital Servisler Bölümü -->
+  <section class="pt-12 animate-fade-in-up animation-delay-400 relative">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+    
+    <div class="mb-10 text-center relative z-10">
+      <h2 class="text-3xl font-black text-slate-800 tracking-tight">Dijital Servisler</h2>
+      <p class="text-slate-500 mt-2 text-lg font-medium">Eğlenceyi katlamak için ekstra servisler.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto relative z-10">
+      @for (service of digitalServices(); track service.id) {
+        <div (click)="addService(service)" class="group bg-white/60 backdrop-blur-md rounded-3xl shadow-sm border border-white p-6 flex flex-col gap-4 hover:shadow-xl hover:border-blue-300 transition-all cursor-pointer transform hover:-translate-y-1">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform text-blue-600">
+            @switch (service.id) {
+              @case (1) {
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+              }
+              @case (2) {
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347c-.75.412-1.667-.13-1.667-.986V5.653Z" /></svg>
+              }
+              @case (3) {
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.536.57a48.124 48.124 0 0 1-.189 3.29c1.442-.257 2.873-.559 4.29-1.007v0a.65.65 0 0 1 .657.653c0 .355-.186.676-.401.959-.221.29-.349.634-.349 1.003 0 1.036 1.007 1.875 2.25 1.875s2.25-.84 2.25-1.875c0-.369-.128-.713-.349-1.003-.215-.283-.401-.604-.401-.959v0c0-.356.312-.628.657-.643a48.39 48.39 0 0 1 4.163.3c-.186-1.613-.293-3.25-.315-4.907a.656.656 0 0 1 .658-.663v0c.355 0 .676.186.959.401.29.221.634.349 1.003.349 1.036 0 1.875-1.007 1.875-2.25s-.84-2.25-1.875-2.25c-.369 0-.713.128-1.003.349-.283.215-.604.401-.959.401v0a.65.65 0 0 1-.536-.57 48.124 48.124 0 0 1 .189-3.29c-1.442.257-2.873.559-4.29 1.007v0a.65.65 0 0 1-.657-.653Z" /></svg>
+              }
+            }
+          </div>
+          <div>
+            <h3 class="font-bold text-xl text-slate-800">{{ service.name }}</h3>
+            <p class="text-sm text-slate-500 mt-2 mb-4 line-clamp-2 h-10">{{ service.description }}</p>
+            <div class="flex justify-between items-end border-t border-slate-100 pt-4">
+              <div>
+                <div class="text-xs text-slate-400 font-medium uppercase tracking-wide">Aylık</div>
+                <div class="font-black text-2xl text-blue-600">{{ service.price }}₺</div>
+              </div>
+              <div class="bg-blue-50 text-blue-700 font-bold px-4 py-2 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                Sepete Ekle
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+</div>

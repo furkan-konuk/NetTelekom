@@ -1,0 +1,112 @@
+<div class="animate-fade-in-up w-full">
+  
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">Kredi Kartı ile Paket Al</h1>
+    <div class="flex items-center text-sm font-medium text-slate-500 gap-2">
+      <span class="hover:text-net-accent cursor-pointer transition-colors">Ödeme ve TL İşlemlerim</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      <span class="text-slate-800 font-bold">Kredi Kartıyla Paket Al</span>
+    </div>
+  </div>
+
+  <div class="max-w-5xl">
+    @if (!isSuccess()) {
+      <p class="text-slate-500 mb-8">Faturanıza yansıtmadan, doğrudan kredi veya banka kartınızla anında paket satın alabilirsiniz.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (pkg of packages(); track pkg.id) {
+          <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all p-8 flex flex-col text-center">
+            <div class="bg-blue-50 text-blue-600 font-bold px-4 py-1 rounded-full text-xs mx-auto mb-6">{{ pkg.duration }}</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-6">{{ pkg.name }}</h3>
+            <div class="text-4xl font-black text-net-primary mb-8">{{ pkg.price }} ₺</div>
+            <button (click)="openPaymentModal(pkg)" class="mt-auto w-full py-3 bg-gradient-to-r from-net-primary to-net-accent text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+              Kart ile Satın Al
+            </button>
+          </div>
+        }
+      </div>
+    } @else {
+      <!-- Success Message -->
+      <div class="max-w-xl mx-auto mt-10 bg-white rounded-3xl p-10 border border-slate-200 shadow-xl text-center animate-fade-in-up">
+        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500">
+          <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        </div>
+        <h2 class="text-3xl font-black text-slate-800 mb-2">Ödeme Başarılı!</h2>
+        <p class="text-slate-500 text-lg mb-8"><strong>{{ selectedPackage()?.name }}</strong> paketi hattınıza tanımlandı. Fatura kesim tarihinize kadar kullanabilirsiniz.</p>
+        <button routerLink="/tarife/mevcut" class="bg-net-primary text-white font-bold px-8 py-4 rounded-xl hover:bg-net-accent transition-colors shadow-lg">
+          Kullanımlarımı Gör
+        </button>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Ödeme Modalı -->
+@if (showPaymentModal()) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" (click)="closePaymentModal()"></div>
+    
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden animate-fade-in-up scale-100 flex flex-col max-h-[90vh]">
+      <div class="bg-net-primary p-6 text-white flex justify-between items-center shrink-0">
+        <h3 class="text-xl font-black">Güvenli Ödeme</h3>
+        <div class="text-2xl font-black">{{ selectedPackage()?.price }} ₺</div>
+      </div>
+      
+      <div class="p-6 overflow-y-auto">
+        <p class="text-slate-600 mb-6 font-medium text-center">Ödeme Yöntemi Seçin</p>
+        
+        <div class="flex gap-2 mb-6">
+          <button (click)="paymentMethod.set('saved')" class="flex-1 py-2 font-bold text-sm rounded-lg transition-colors border"
+                  [ngClass]="paymentMethod() === 'saved' ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-white border-slate-200 text-slate-500'">
+            Kayıtlı Kartlarım
+          </button>
+          <button (click)="paymentMethod.set('new')" class="flex-1 py-2 font-bold text-sm rounded-lg transition-colors border"
+                  [ngClass]="paymentMethod() === 'new' ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-white border-slate-200 text-slate-500'">
+            Yeni Kart Gir
+          </button>
+        </div>
+
+        @if (paymentMethod() === 'saved') {
+          <div class="flex flex-col gap-3">
+            @for (card of savedCards(); track card.id) {
+              <div (click)="selectedCardId.set(card.id)" 
+                   class="p-4 border-2 rounded-xl cursor-pointer transition-all flex justify-between items-center"
+                   [ngClass]="selectedCardId() === card.id ? 'border-net-primary bg-blue-50' : 'border-slate-200 bg-white hover:border-slate-300'">
+                <div>
+                  <div class="font-bold text-slate-800">{{ card.type }}</div>
+                  <div class="text-sm text-slate-500">**** {{ card.last4 }}</div>
+                </div>
+                @if (selectedCardId() === card.id) {
+                  <div class="w-6 h-6 bg-net-primary rounded-full flex items-center justify-center text-white">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                  </div>
+                } @else {
+                  <div class="w-6 h-6 border-2 border-slate-300 rounded-full"></div>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <!-- Yeni Kart Formu -->
+          <div class="flex flex-col gap-4">
+            <div>
+              <input type="text" placeholder="Kart Üzerindeki İsim" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+            </div>
+            <div>
+              <input type="text" placeholder="Kart Numarası" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <input type="text" placeholder="AA/YY" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+              <input type="text" placeholder="CVC" class="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:border-net-primary focus:ring-1" />
+            </div>
+          </div>
+        }
+
+        <div class="mt-8 flex gap-3">
+          <button (click)="closePaymentModal()" class="flex-1 px-6 py-3 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 transition-colors">Vazgeç</button>
+          <button (click)="confirmPayment()" class="flex-1 px-6 py-3 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 shadow-lg transition-colors">Onayla & Öde</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,23 @@
+<div class="min-h-screen flex flex-col bg-gray-50 font-sans text-slate-800 relative selection:bg-net-accent/30 selection:text-net-primary">
+  
+  <!-- Üst Menü (Header) -->
+  <app-header></app-header>
+  
+  <div class="flex flex-1 overflow-hidden relative z-0">
+    <!-- Sol Menü (Sidebar) -->
+    <app-sidebar class="w-72 flex-shrink-0 hidden md:block z-10"></app-sidebar>
+    
+    <!-- Ana İçerik (Main Content) -->
+    <main class="flex-1 overflow-y-auto p-6 md:p-10 scroll-smooth">
+      <div class="max-w-5xl mx-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Alt Bilgi (Footer) -->
+  <app-footer></app-footer>
+  
+  <!-- Chatbot -->
+  <app-chatbot></app-chatbot>
+</div>

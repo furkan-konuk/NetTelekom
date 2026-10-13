@@ -1,0 +1,36 @@
+<div class="animate-fade-in-up w-full">
+  
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">Abonelik Tercihleri</h1>
+    <div class="flex items-center text-sm font-medium text-slate-500 gap-2">
+      <span class="hover:text-net-accent cursor-pointer transition-colors">Abonelik İşlemleri</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      <span class="text-slate-800 font-bold">Tercihler</span>
+    </div>
+  </div>
+
+  <div class="max-w-4xl">
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+      <p class="text-slate-500 mb-8">Hattınızla ilgili pazarlama ve servis izinlerini buradan yönetebilirsiniz. Değişiklikler anında kaydedilir.</p>
+      
+      <div class="flex flex-col gap-6">
+        @for (pref of preferences(); track pref.id) {
+          <div class="flex items-center justify-between p-4 border-b border-slate-100 last:border-0 hover:bg-slate-50 rounded-xl transition-colors">
+            <div class="pr-8">
+              <h4 class="font-bold text-slate-800 text-lg mb-1">{{ pref.title }}</h4>
+              <p class="text-sm text-slate-500">{{ pref.description }}</p>
+            </div>
+            
+            <!-- Toggle Switch -->
+            <button (click)="togglePreference(pref.id)"
+                    class="relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+                    [ngClass]="pref.value ? 'bg-green-500' : 'bg-slate-300'">
+              <span class="pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+                    [ngClass]="pref.value ? 'translate-x-6' : 'translate-x-0'"></span>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

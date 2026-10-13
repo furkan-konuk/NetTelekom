@@ -1,0 +1,51 @@
+<div class="animate-fade-in-up w-full">
+  
+  <div class="mb-8 border-b border-slate-200 pb-4">
+    <h1 class="text-3xl font-light text-slate-800 mb-2">Dijital Servisler</h1>
+    <div class="flex items-center text-sm font-medium text-slate-500 gap-2">
+      <span class="hover:text-net-accent cursor-pointer transition-colors">Servis İşlemleri</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+      <span class="text-slate-800 font-bold">Dijital Ürünler</span>
+    </div>
+  </div>
+
+  <div class="max-w-6xl">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      @for (svc of services(); track svc.id) {
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-xl transition-all relative flex flex-col h-full group"
+             [ngClass]="svc.active ? 'ring-2 ring-net-primary' : ''">
+          
+          <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-inner"
+               [ngClass]="svc.active ? 'bg-gradient-to-br from-net-primary to-net-accent text-white' : 'bg-slate-100 text-slate-400 group-hover:text-net-primary'">
+            @switch (svc.icon) {
+              @case ('musical-note') {
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v13.032c0 .258-.066.51-.188.732l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66A2.25 2.25 0 009 13.103z" /></svg>
+              }
+              @case ('tv') {
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125z" /></svg>
+              }
+              @case ('book-open') {
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+              }
+              @case ('puzzle-piece') {
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 01-.657.643 48.39 48.39 0 01-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 01-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 00-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.536.57a48.124 48.124 0 01-.189 3.29c1.442-.257 2.873-.559 4.29-1.007v0a.65.65 0 01.657.653c0 .355-.186.676-.401.959-.221.29-.349.634-.349 1.003 0 1.036 1.007 1.875 2.25 1.875s2.25-.84 2.25-1.875c0-.369-.128-.713-.349-1.003-.215-.283-.401-.604-.401-.959v0c0-.356.312-.628.657-.643a48.39 48.39 0 014.163.3c-.186-1.613-.293-3.25-.315-4.907a.656.656 0 01.658-.663v0c.355 0 .676.186.959.401.29.221.634.349 1.003.349 1.036 0 1.875-1.007 1.875-2.25s-.84-2.25-1.875-2.25c-.369 0-.713.128-1.003.349-.283.215-.604.401-.959.401v0a.65.65 0 01-.536-.57 48.124 48.124 0 01.189-3.29c-1.442.257-2.873.559-4.29 1.007v0a.65.65 0 01-.657-.653z" /></svg>
+              }
+            }
+          </div>
+
+          <h3 class="text-xl font-bold text-slate-800 mb-2">{{ svc.name }}</h3>
+          <p class="text-sm text-slate-500 mb-6 flex-grow">{{ svc.description }}</p>
+          
+          <div class="flex items-center justify-between mt-auto">
+            <div class="font-black text-lg text-slate-700">{{ svc.price === 0 ? 'Ücretsiz' : svc.price + ' ₺' }}</div>
+            <button (click)="toggleService(svc.id)" 
+                    class="px-4 py-2 rounded-xl font-bold text-sm transition-colors"
+                    [ngClass]="svc.active ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-blue-50 text-blue-600 hover:bg-blue-100'">
+              {{ svc.active ? 'İptal Et' : 'Aktif Et' }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
